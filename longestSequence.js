@@ -33,22 +33,25 @@ module.longestConsecutiveSequence = (function() {
         var occurrence = 1;
         var longestLength = 1;
 
+        function checkWinner(num, length) {
+            if (occurrence > longestLength) {
+                winner = num;
+                longestLength = length;
+            }
+        }
+
         for (var i = 1; i <= arr.length; i++) {
             if (arr[i] == current) {
                 occurrence++;
             } else {
-                if (occurrence > longestLength) {
-                    winner = current;
-                    longestLength = occurrence;
-                }
+                checkWinner(current, occurrence);
 
                 current = arr[i];
                 occurrence = 1;
             }
 
-            if (i === arr.length && occurrence > longestLength) {
-                winner = current;
-                longestLength = occurrence;
+            if (i === arr.length) {
+                checkWinner(current, occurrence);
             }
         }
 
