@@ -1,8 +1,8 @@
 var module = module || {};
 
 module.longestConsecutiveSequence = (function() {
-    function run(array) {
-
+    /* O(n^2) */
+    function run1(array) {
         var current = []
         var longest = []
 
@@ -26,9 +26,39 @@ module.longestConsecutiveSequence = (function() {
         return `Longest sequence is of value ${longest[0]} with ${longest.length} occurrences.`;
     }
 
-    return {
-        run: run
+    /* O(n) */
+    function run2(arr) {
+        var current = arr[0];
+        var winner = arr[0];
+        var occurrence = 1;
+        var longestLength = 1;
+
+        for (var i = 1; i <= arr.length; i++) {
+            if (arr[i] == current) {
+                occurrence++;
+            } else {
+                if (occurrence > longestLength) {
+                    winner = current;
+                    longestLength = occurrence;
+                }
+
+                current = arr[i];
+                occurrence = 1;
+            }
+
+            if (i === arr.length && occurrence > longestLength) {
+                winner = current;
+                longestLength = occurrence;
+            }
+        }
+
+        return `Longest consecutive sequence number is ${winner} with ${longestLength} occurrences`;
     }
+
+    return {
+        run1: run1,
+        run2: run2
+    };
 })();
 
 
@@ -38,4 +68,5 @@ module.longestConsecutiveSequence = (function() {
 
 var array = [5,1,2,3,3,4,2,14,4,4,4,5,];
 
-module.longestConsecutiveSequence.run(array);
+module.longestConsecutiveSequence.run1(array);
+module.longestConsecutiveSequence.run2(array);
